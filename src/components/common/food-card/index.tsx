@@ -13,6 +13,9 @@ import { FoodType } from '@/components/ui/Foods/Foods';
 import { useDeleteFoodMutation } from '@/redux/features/getFoods';
 import Loader from '../loader';
 import AddFoodModal from '@/components/ui/AddFoodModal/AddFoodModal';
+import { useAddToTrashMutation } from '@/redux/features/trash';
+import { useAddToDraftMutation } from '@/redux/features/draft';
+import { toast } from 'sonner';
 
 
 interface FoodCardType {
@@ -20,13 +23,40 @@ interface FoodCardType {
 }
 
 export default function FoodCard({ food }: FoodCardType) {
-    const [deleteFood] = useDeleteFoodMutation()
+    const [deleteFood, { isSuccess }] = useDeleteFoodMutation()
+    const [addToDraft, res] = useAddToDraftMutation()
+    const [addToTrash] = useAddToTrashMutation()
     const [isOpen, setIsOpen] = useState(false)
 
-    const handleDeleteFood = () => {
-        deleteFood(food.id)
+    const handleDeleteFood = async () => {
+        const res = await deleteFood(food.id)
+        //@ts-ignore
+        if (res?.data) {
+            await addToTrash({
+                name: food.name,
+                category: food.category,
+                price: food.price,
+                description: food.description,
+                image: food.image
+            })
+        }
+
     }
 
+
+    const handleAddToDraft = async () => {
+        const res = await addToDraft({
+            name: food.name,
+            category: food.category,
+            price: food.price,
+            description: food.description,
+            image: food.image
+        })
+        //@ts-ignore
+        if (res?.data) {
+            toast.success("Successfully added to draft ")
+        }
+    }
 
 
     return (
@@ -68,9 +98,13 @@ export default function FoodCard({ food }: FoodCardType) {
                             onClick={() => setIsOpen(true)}
                             variant='contained'
                             className='text-white hover:bg-primary/95 bg-primary'>Edit</Button>
+                        <Button onClick={handleAddToDraft} variant='contained' className='bg-black text-white hover:bg-black/90 hover:text-white capitalize'>
+                            Draft
+                        </Button>
                         <Button onClick={handleDeleteFood} variant='outlined' className='border-red-500 text-red-500 hover:border-red-500 capitalize'>
                             Delete
                         </Button>
+
                     </div>
                 </CardContent>
             </Card>
