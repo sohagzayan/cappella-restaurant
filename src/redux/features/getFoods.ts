@@ -1,16 +1,24 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const getFoods = createApi({
-  reducerPath: "food",
+  reducerPath: "foods",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://62f899fe3eab3503d1d873c7.mockapi.io",
+    baseUrl: "https://6630d643c92f351c03db44cd.mockapi.io/api/v1",
   }),
+  tagTypes: ["Food"],
   endpoints: (builder) => ({
-    // get all product
     getAllFood: builder.query({
-      query: () => `/Crud`,
+      query: () => `/foods`,
+      providesTags: ["Food"],
+    }),
+    deleteFood: builder.mutation({
+      query: (id) => ({
+        url: `/foods/${parseInt(id)}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Food"],
     }),
   }),
 });
 
-export const { useGetAllFoodQuery } = getFoods;
+export const { useGetAllFoodQuery, useDeleteFoodMutation } = getFoods;

@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { Middleware, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { getFoods } from "./features/getFoods";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -8,7 +8,9 @@ export const store = configureStore({
     [getFoods.reducerPath]: getFoods.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(getFoods.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat([
+      getFoods.middleware,
+    ] as Middleware[]),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
