@@ -1,7 +1,8 @@
 "use client"
 import { FoodCard } from '@/components/common'
 import { useGetAllFoodQuery } from '@/redux/features/getFoods';
-import React from 'react'
+import React, { useState } from 'react'
+import AddFoodModal from '../AddFoodModal/AddFoodModal';
 
 export interface FoodType {
     id: string,
@@ -14,7 +15,14 @@ export interface FoodType {
 }
 
 
-const Foods = () => {
+interface AddFoodModalType {
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isOpen: boolean;
+}
+
+
+
+const Foods = ({ isOpen, setIsOpen }: AddFoodModalType) => {
     const {
         data: foods,
         isLoading: isGetLoading,
@@ -50,11 +58,14 @@ const Foods = () => {
 
     console.log("data >>>", foods)
     return (
-        <div className='mt-10 grid grid-cols-4 gap-5'>
-            {foods?.map((food: FoodType) => <FoodCard key={food.id + food.name} food={food} />
-            )}
-            {/* {postContent} */}
-        </div>
+        <>
+            <AddFoodModal isOpen={isOpen} setIsOpen={setIsOpen} />
+            <div className='mt-10 grid grid-cols-4 gap-5'>
+                {foods?.map((food: FoodType) => <FoodCard key={food.id + food.name} food={food} />
+                )}
+                {/* {postContent} */}
+            </div>
+        </>
     )
 }
 

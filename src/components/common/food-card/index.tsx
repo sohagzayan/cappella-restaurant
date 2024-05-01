@@ -1,3 +1,4 @@
+"use client"
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -10,6 +11,7 @@ import { revalidateTag } from 'next/cache'
 import { foodAction } from '@/action/food';
 import { FoodType } from '@/components/ui/Foods/Foods';
 import { useDeleteFoodMutation } from '@/redux/features/getFoods';
+import Loader from '../loader';
 
 
 interface FoodCardType {
@@ -17,12 +19,11 @@ interface FoodCardType {
 }
 
 export default function FoodCard({ food }: FoodCardType) {
-    const [deleteFood, response] = useDeleteFoodMutation()
+    const [deleteFood] = useDeleteFoodMutation()
 
 
     const handleDeleteFood = () => {
         deleteFood(food.id)
-        console.log('response', response)
     }
 
     return (
@@ -60,7 +61,9 @@ export default function FoodCard({ food }: FoodCardType) {
                     </Typography>
                     <div className='flex items-center gap-4 mt-3' >
                         <Button variant='contained' className='text-white hover:bg-primary/95 bg-primary'>Edit</Button>
-                        <Button onClick={handleDeleteFood} variant='outlined' className='border-red-500 text-red-500 hover:border-red-500 capitalize'>Delete</Button>
+                        <Button onClick={handleDeleteFood} variant='outlined' className='border-red-500 text-red-500 hover:border-red-500 capitalize'>
+                            Delete
+                        </Button>
                     </div>
                 </CardContent>
             </Card>
