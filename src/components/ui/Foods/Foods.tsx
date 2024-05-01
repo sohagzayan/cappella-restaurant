@@ -20,12 +20,13 @@ export interface FoodType {
 interface AddFoodModalType {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isOpen: boolean;
-    activeHistoryTab: number
+    activeHistoryTab: number;
+    searchQuery: string
 }
 
 
 
-const Foods = ({ isOpen, setIsOpen, activeHistoryTab }: AddFoodModalType) => {
+const Foods = ({ isOpen, setIsOpen, activeHistoryTab, searchQuery }: AddFoodModalType) => {
     const {
         data: foods,
         isLoading: isGetLoading,
@@ -37,40 +38,27 @@ const Foods = ({ isOpen, setIsOpen, activeHistoryTab }: AddFoodModalType) => {
     let postContent
 
 
-
-    if (isFetching) {
-        postContent = (
-            <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        )
-    } else if (isGetSuccess) {
-        postContent = foods.map((food: FoodType) => {
-            return <FoodCard food={food} key={food.id} />
-        })
-    } else if (isGetError) {
-        postContent = (
-            <div className="alert alert-danger" role="alert">
-                {/* {getError} */}
-            </div>
-        )
+    function searchFoodItems(query: string): FoodType[] {
+        query = query.toLowerCase().trim(); // Convert query to lowercase and remove leading/trailing spaces
+        return foods?.filter((food: FoodType) => food.name.toLowerCase().includes(query));
     }
 
+    const searchResults = searchFoodItems(searchQuery);
 
-    console.log("data >>>", foods)
+
+
+    console.log("searchResults >>>", searchResults)
     return (
         <>
             <AddFoodModal isOpen={isOpen} setIsOpen={setIsOpen} />
             <div>
                 <div className='mt-10 grid grid-cols-4 gap-5'>
-                    {activeHistoryTab === 0 && foods?.map((food: FoodType) => <FoodCard key={food.id + food.name} food={food} />
+                    {activeHistoryTab === 0 && searchResults?.map((food: FoodType) => <FoodCard key={food.id + food.name} food={food} />
                     )}
                 </div>
-                {activeHistoryTab === 1 && <TrashList />}
+                {activeHistoryTab === 1 && <TrashList searchQuery={searchQuery} />}
 
-                {activeHistoryTab === 2 && <DraftList />}
+                {activeHistoryTab === 2 && <DraftList searchQuery={searchQuery} />}
             </div>
         </>
     )
