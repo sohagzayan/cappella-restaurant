@@ -10,25 +10,38 @@ import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from "react"
 import axios from 'axios';
-import { useAddFoodMutation } from '@/redux/features/getFoods';
+import { useAddFoodMutation, useUpdateFoodMutation } from '@/redux/features/getFoods';
 import { toast } from 'sonner';
 
-
+interface InitialValueType {
+    name: string;
+    price: string;
+    category: string;
+    description: string;
+    id: string
+}
 interface AddFoodModalType {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isOpen: boolean;
+    initialValue?: InitialValueType
 }
 
-export default function AddFoodModal({ setIsOpen, isOpen }: AddFoodModalType) {
+export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoodModalType) {
     const [fileEvent, setFileEvent] = useState(null)
     const [imageError, setImageError] = useState("")
     const [loading, setLoading] = useState(false)
 
     const [addFood, { isSuccess }] = useAddFoodMutation()
+    const [updateFood, { isLoading }] = useUpdateFoodMutation()
 
     const handleClose = () => {
         setIsOpen(false);
+        setImageError("")
+        formik.resetForm()
+        setFileEvent(null)
     }
+
+    console.log("initialValue", initialValue)
 
 
     const handleImageUpload = async (event: any) => {
@@ -46,8 +59,10 @@ export default function AddFoodModal({ setIsOpen, isOpen }: AddFoodModalType) {
                 setImageError("You should upload valid image here!")
             }
         } else {
-            setImageError("Please add one image for this food")
-            return
+            if (!initialValue) {
+                setImageError("Please add one image for this food")
+                return
+            }
         }
     }
 
@@ -56,59 +71,48 @@ export default function AddFoodModal({ setIsOpen, isOpen }: AddFoodModalType) {
 
     const formik = useFormik({
         initialValues: {
-            name: "",
-            image: "",
-            price: 0,
-            description: "",
-            category: "",
+            name: initialValue?.name ? initialValue?.name : "",
+            price: initialValue?.price ? parseInt(initialValue?.price) : 0,
+            description: initialValue?.description ? initialValue?.description : "",
+            category: initialValue?.category ? initialValue?.category : "",
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Please add name for this food"),
-            image: Yup.string(),
             price: Yup.number().required("Please add price for this food"),
-            description: Yup.string().required("Please add description here").max(30, "Please add your description in 50 word"),
+            description: Yup.string().required("Please add description here").max(150, "Please add your description in 150 word"),
             category: Yup.string().required("Please add category here"),
         }),
         onSubmit: async (values) => {
             setLoading(true)
             try {
-                console.log("values >", values)
-                console.log("all values before >", values);
-                if (!fileEvent) {
-                    return
+                if (!initialValue) {
+                    if (!fileEvent) {
+                        return
+                    }
                 }
                 const image = await handleImageUpload(fileEvent)
-                console.log("image", image)
-                console.log("all values after >", values);
+                if (initialValue) {
+                    await updateFood({ ...values, image, id: initialValue.id })
 
-
-                const ress = await addFood(values)
-
-                if (isSuccess) {
-                    toast.success("successfully added a food")
-                    formik.resetForm()
-                    setImageError("")
-                    setFileEvent(null)
-                    setIsOpen(false)
+                } else {
+                    await addFood({ ...values, image })
+                    if (isSuccess) {
+                        toast.success("successfully added a food")
+                        formik.resetForm()
+                        setImageError("")
+                        setFileEvent(null)
+                        setIsOpen(false)
+                    }
                 }
-
-                // const res = await axios.post("/api/onboarding/culture", values)
-                // if (res.statusText) {
-                //     setLoading(false)
-                // }
-                // console.log("res", res)
-                // setLoading(false)
-
             } catch (error: any) {
                 console.log("error > ", error.message)
                 setLoading(false)
-
             }
-
         },
     });
 
-    console.log("formik", formik.errors)
+
+    console.log("formik errrrr>", formik.errors)
 
     return (
         <React.Fragment>

@@ -12,6 +12,7 @@ import { foodAction } from '@/action/food';
 import { FoodType } from '@/components/ui/Foods/Foods';
 import { useDeleteFoodMutation } from '@/redux/features/getFoods';
 import Loader from '../loader';
+import AddFoodModal from '@/components/ui/AddFoodModal/AddFoodModal';
 
 
 interface FoodCardType {
@@ -20,14 +21,18 @@ interface FoodCardType {
 
 export default function FoodCard({ food }: FoodCardType) {
     const [deleteFood] = useDeleteFoodMutation()
-
+    const [isOpen, setIsOpen] = useState(false)
 
     const handleDeleteFood = () => {
         deleteFood(food.id)
     }
 
+
+
     return (
         <>
+            <AddFoodModal isOpen={isOpen} setIsOpen={setIsOpen} initialValue={{ name: food.name, price: food.price, category: food.category, description: food.description, id: food.id }} />
+
             <Card sx={{ maxWidth: 345 }}>
                 <CardActionArea>
                     <div className='relative after:w-full after:h-full after:absolute after:top-0 after:left-0 after:bg-black/0 after:z-50 group hover:after:bg-black/40 after:transition-all after:ease-in-out after:duration-200'>
@@ -47,20 +52,22 @@ export default function FoodCard({ food }: FoodCardType) {
 
                 </CardActionArea>
                 <CardContent>
-                    <Typography component="div" className='flex items-center justify-between'>
+                    <Typography component="div" className='flex  gap-2 justify-between'>
                         <Typography variant="h5" component="div" className='font-semibold'>
-                            Tuna Roast Source
+                            {food.name}
                         </Typography>
                         <Typography variant="h5" component="div" className='font-semibold'>
-                            $24.5
+                            ${food?.price}
                         </Typography>
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
+                        {food?.description}
                     </Typography>
                     <div className='flex items-center gap-4 mt-3' >
-                        <Button variant='contained' className='text-white hover:bg-primary/95 bg-primary'>Edit</Button>
+                        <Button
+                            onClick={() => setIsOpen(true)}
+                            variant='contained'
+                            className='text-white hover:bg-primary/95 bg-primary'>Edit</Button>
                         <Button onClick={handleDeleteFood} variant='outlined' className='border-red-500 text-red-500 hover:border-red-500 capitalize'>
                             Delete
                         </Button>

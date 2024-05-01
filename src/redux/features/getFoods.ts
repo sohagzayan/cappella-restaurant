@@ -26,8 +26,26 @@ export const getFoods = createApi({
       }),
       invalidatesTags: ["Food"],
     }),
+    updateFood: builder.mutation({
+      query: (data) => ({
+        url: `/foods/${data.id}`,
+        method: "PUT",
+        body: {
+          name: data.name,
+          price: data.price,
+          category: data.category,
+          description: data.description,
+          image: data.image,
+        },
+      }),
+      invalidatesTags: ["Food"],
+    }),
   }),
 });
 
-export const { useGetAllFoodQuery, useDeleteFoodMutation, useAddFoodMutation } =
-  getFoods;
+export const {
+  useGetAllFoodQuery,
+  useDeleteFoodMutation,
+  useAddFoodMutation,
+  useUpdateFoodMutation,
+} = getFoods;
