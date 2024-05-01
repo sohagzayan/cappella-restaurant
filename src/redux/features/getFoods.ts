@@ -18,7 +18,16 @@ export const getFoods = createApi({
       }),
       invalidatesTags: ["Food"],
     }),
+    addFood: builder.mutation({
+      query: (data) => ({
+        url: `/foods`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Food"],
+    }),
   }),
 });
 
-export const { useGetAllFoodQuery, useDeleteFoodMutation } = getFoods;
+export const { useGetAllFoodQuery, useDeleteFoodMutation, useAddFoodMutation } =
+  getFoods;
