@@ -55,11 +55,11 @@ const DraftCard = ({ food }: DraftCardType) => {
                     alt="green iguana"
                 />
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography gutterBottom variant="h6" component="div">
                         {food?.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {food?.description}
+                    <Typography variant="body2" color="text.secondary" className='h-[80px]'>
+                        {food?.description.slice(0, 120)}
                     </Typography>
                 </CardContent>
             </CardActionArea>

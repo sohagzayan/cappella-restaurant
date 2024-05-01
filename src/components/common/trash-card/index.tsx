@@ -52,14 +52,14 @@ const TrashCard = ({ food }: TrashCardType) => {
             <Box >
                 <div>
                     <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h5">
+                        <Typography component="div" variant="h6">
                             {food?.name}
                         </Typography>
                         <Typography variant="subtitle1" color="text.secondary" component="div" className='text-light_white font-semibold text-[20px]'>
                             $ {food?.price}
                         </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div" className='text-light_white '>
-                            {food?.description}
+                        <Typography variant="subtitle1" color="text.secondary" component="div" className='text-light_white h-[80px] '>
+                            {food?.description.slice(0, 120)} ...
                         </Typography>
                     </CardContent>
                 </div>
