@@ -79,7 +79,7 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
         validationSchema: Yup.object({
             name: Yup.string().required("Please add name for this food"),
             price: Yup.number().required("Please add price for this food"),
-            description: Yup.string().required("Please add description here").max(150, "Please add your description in 150 word"),
+            description: Yup.string().required("Please add description here"),
             category: Yup.string().required("Please add category here"),
         }),
         onSubmit: async (values) => {
@@ -159,11 +159,12 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
                         ) : null}
 
 
-                        <label className="block text-foreground-light text-sm" htmlFor="price">Name</label>
+                        <label className="block text-foreground-light text-sm" htmlFor="price">Price</label>
                         <input
                             id="price"
                             name="price"
                             placeholder="price"
+                            min={0}
                             type="number"
                             className="peer/input block box-border w-full rounded-md shadow-sm transition-all text-foreground focus-visible:shadow-md outline-none focus:ring-2 focus-visible:border-foreground-muted focus-visible:ring-background-control placeholder-foreground-muted group bg-destructive-200 border border-destructive-500 focus:ring-destructive-400 placeholder:text-destructive-400 text-sm px-4 py-2 mb-1"
 
@@ -172,14 +173,15 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
                         />
 
                         <label className="block text-foreground-light text-sm" htmlFor="description">Description</label>
-                        <input
+                        <textarea
                             id="description"
                             name="description"
                             placeholder="description"
-                            type="text"
-                            className="peer/input block box-border w-full rounded-md shadow-sm transition-all text-foreground focus-visible:shadow-md outline-none focus:ring-2 focus-visible:border-foreground-muted focus-visible:ring-background-control placeholder-foreground-muted group bg-destructive-200 border border-destructive-500 focus:ring-destructive-400 placeholder:text-destructive-400 text-sm px-4 py-2 mb-1"
                             value={formik.values.description}
                             onChange={formik.handleChange}
+                            className="peer/input block box-border w-full rounded-md shadow-sm transition-all text-foreground focus-visible:shadow-md outline-none focus:ring-2 focus-visible:border-foreground-muted placeholder-foreground-muted group  border border-destructive-500 placeholder:text-destructive-400 text-sm px-4 py-2 mb-1 "
+                            rows={3}
+
                         />
 
                         <label className="block text-foreground-light text-sm" htmlFor="category">Category</label>

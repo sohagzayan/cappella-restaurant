@@ -84,15 +84,15 @@ export default function FoodCard({ food }: FoodCardType) {
                 </CardActionArea>
                 <CardContent>
                     <Typography component="div" className='flex  gap-2 justify-between'>
-                        <Typography variant="h5" component="div" className='font-semibold'>
+                        <Typography variant="h6" component="div" className='font-semibold'>
                             {food.name}
                         </Typography>
                         <Typography variant="h5" component="div" className='font-semibold'>
                             ${food?.price}
                         </Typography>
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {food?.description}
+                    <Typography variant="body2" color="text.secondary" className='h-[80px]'>
+                        {food?.description.slice(0, 120)}
                     </Typography>
                     <div className='flex items-center gap-4 mt-3' >
                         <Button
@@ -108,6 +108,7 @@ export default function FoodCard({ food }: FoodCardType) {
 
                     </div>
                 </CardContent>
+
             </Card>
         </>
     );
