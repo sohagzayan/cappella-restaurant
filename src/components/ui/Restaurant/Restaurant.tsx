@@ -12,7 +12,7 @@ import { TablePagination } from '@mui/material'
 
 const Restaurant = () => {
     const [isOpen, setIsOpen] = useState(false)
-
+    const [activeHistoryTab, setActiveHistoryTab] = useState(0)
     let page = 3
     let rowsPerPage = 5
     const handleChangeRowsPerPage = () => {
@@ -24,10 +24,10 @@ const Restaurant = () => {
     return (
         <div className=' h-16 mx-auto lg:container lg:px-16 xl:px-20 z-50'>
             <Summary />
-            <HistoryTab />
+            <HistoryTab activeHistoryTab={activeHistoryTab} setActiveHistoryTab={setActiveHistoryTab} />
             <SearchFilterManager isOpen={isOpen} setIsOpen={setIsOpen} />
             <TopPaginationSummary />
-            <Foods isOpen={isOpen} setIsOpen={setIsOpen} />
+            <Foods isOpen={isOpen} setIsOpen={setIsOpen} activeHistoryTab={activeHistoryTab} />
             <TablePagination
                 className='text-white'
                 component="div"

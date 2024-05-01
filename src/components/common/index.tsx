@@ -1,3 +1,5 @@
 export { default as Header } from './header'
 export { default as SummaryCard } from './summary-card'
 export { default as FoodCard } from './food-card'
+export { default as TrashCard } from './trash-card'
+export { default as DraftCard } from './draft-card'

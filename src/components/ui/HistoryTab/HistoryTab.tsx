@@ -9,8 +9,15 @@ const activeTabClass = "border-secondary  hover:bg-secondary hover:text-white  b
 
 const regularTabClass = "border-secondary text-secondary hover:text-secondary hover:border-secondary capitalize"
 
-const HistoryTab = () => {
-    const [activeTab, setActiveTab] = useState(0)
+
+interface HistoryTab {
+    activeHistoryTab: number;
+    setActiveHistoryTab: (activeHistoryTab: number) => void;
+}
+
+const HistoryTab = ({ activeHistoryTab, setActiveHistoryTab }: HistoryTab) => {
+
+    // const [activeTab, setActiveTab] = useState(0)
     const { data: Foods } = useGetAllFoodQuery({})
     const { data: Trash } = useGetFoodFromTrashQuery({})
     const { data: draft } = useGetFoodFromDraftQuery({})
@@ -20,13 +27,19 @@ const HistoryTab = () => {
     return (
         <ul className='text-white flex items-center gap-5 mt-10 flex-wrap '>
             <li>
-                <Button variant={activeTab === 0 ? 'contained' : 'outlined'} className={activeTab === 0 ? activeTabClass : regularTabClass}>All - {Foods?.length}</Button>
+                <Button
+                    onClick={() => setActiveHistoryTab(0)}
+                    variant={activeHistoryTab === 0 ? 'contained' : 'outlined'} className={activeHistoryTab === 0 ? activeTabClass : regularTabClass}>All - {Foods?.length}</Button>
             </li>
             <li>
-                <Button variant={activeTab === 1 ? 'contained' : 'outlined'} className={activeTab === 1 ? activeTabClass : regularTabClass}>Trash - {Trash?.length}</Button>
+                <Button
+                    onClick={() => setActiveHistoryTab(1)}
+                    variant={activeHistoryTab === 1 ? 'contained' : 'outlined'} className={activeHistoryTab === 1 ? activeTabClass : regularTabClass}>Trash - {Trash?.length}</Button>
             </li>
             <li>
-                <Button variant={activeTab === 2 ? 'contained' : 'outlined'} className={activeTab === 2 ? activeTabClass : regularTabClass}>Draft - {draft?.length}</Button>
+                <Button
+                    onClick={() => setActiveHistoryTab(2)}
+                    variant={activeHistoryTab === 2 ? 'contained' : 'outlined'} className={activeHistoryTab === 2 ? activeTabClass : regularTabClass}>Draft - {draft?.length}</Button>
             </li>
         </ul>
     )

@@ -95,8 +95,9 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
                     await updateFood({ ...values, image, id: initialValue.id })
 
                 } else {
-                    await addFood({ ...values, image })
-                    if (isSuccess) {
+                    const res = await addFood({ ...values, image })
+                    //@ts-ignore  
+                    if (res?.data) {
                         toast.success("successfully added a food")
                         formik.resetForm()
                         setImageError("")

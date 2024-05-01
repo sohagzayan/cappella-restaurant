@@ -3,6 +3,8 @@ import { FoodCard } from '@/components/common'
 import { useGetAllFoodQuery } from '@/redux/features/getFoods';
 import React, { useState } from 'react'
 import AddFoodModal from '../AddFoodModal/AddFoodModal';
+import DraftList from '../DraftList/DraftList';
+import TrashList from '../TrashList/TrashList';
 
 export interface FoodType {
     id: string,
@@ -18,11 +20,12 @@ export interface FoodType {
 interface AddFoodModalType {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isOpen: boolean;
+    activeHistoryTab: number
 }
 
 
 
-const Foods = ({ isOpen, setIsOpen }: AddFoodModalType) => {
+const Foods = ({ isOpen, setIsOpen, activeHistoryTab }: AddFoodModalType) => {
     const {
         data: foods,
         isLoading: isGetLoading,
@@ -60,10 +63,14 @@ const Foods = ({ isOpen, setIsOpen }: AddFoodModalType) => {
     return (
         <>
             <AddFoodModal isOpen={isOpen} setIsOpen={setIsOpen} />
-            <div className='mt-10 grid grid-cols-4 gap-5'>
-                {foods?.map((food: FoodType) => <FoodCard key={food.id + food.name} food={food} />
-                )}
-                {/* {postContent} */}
+            <div>
+                <div className='mt-10 grid grid-cols-4 gap-5'>
+                    {activeHistoryTab === 0 && foods?.map((food: FoodType) => <FoodCard key={food.id + food.name} food={food} />
+                    )}
+                </div>
+                {activeHistoryTab === 1 && <TrashList />}
+
+                {activeHistoryTab === 2 && <DraftList />}
             </div>
         </>
     )
