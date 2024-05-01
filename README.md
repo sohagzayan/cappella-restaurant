@@ -46,6 +46,16 @@
 
 * Open a PR on GitHub (or similar) comparing hotfix/issue-description to main.
 
+## Dataset Generation, Data Format, And Statistics
+
+What is the difference between MSMARCO and other MRC datasets? We believe the advantages that are special to MSMARCO are:
+
+- Real questions: All questions have been sample from real anonymized bing queries.
+- Real Documents: Most Url's that we have source the passages from contain the full web documents. These can be used as extra contextual information to improve systems or be used to compete in our expert task.
+- Human Generated Answers: All questions have an answer written by a human. If there was no answer in the passages the judge read they have written 'No Answer Present.'
+- Human Generated Well-Formed: Some questions contain extra human evaluation to create well formed answers that could be used by intelligent agents like Cortana, Siri, Google Assistant, and Alexa.
+- Dataset Size: At over 1 million queries the dataset is large enough to train the most complex systems and also sample the data for specific applications.
+
 ### Quick View
 
 ![alt text](image.png)
