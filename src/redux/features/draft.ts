@@ -20,7 +20,19 @@ export const draftApi = createApi({
       query: () => `/draft`,
       providesTags: ["draft"],
     }),
+
+    removeFoodFormDraft: builder.mutation({
+      query: (id) => ({
+        url: `/draft/${parseInt(id)}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["draft"],
+    }),
   }),
 });
 
-export const { useAddToDraftMutation, useGetFoodFromDraftQuery } = draftApi;
+export const {
+  useAddToDraftMutation,
+  useGetFoodFromDraftQuery,
+  useRemoveFoodFormDraftMutation,
+} = draftApi;

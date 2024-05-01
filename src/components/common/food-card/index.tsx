@@ -54,7 +54,8 @@ export default function FoodCard({ food }: FoodCardType) {
         })
         //@ts-ignore
         if (res?.data) {
-            toast.success("Successfully added to draft ")
+            toast.success("Successfully added to draft")
+            await deleteFood(food.id)
         }
     }
 

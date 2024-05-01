@@ -1,24 +1,52 @@
+"use client"
 import React from 'react'
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { FoodType } from '@/components/ui/Foods/Foods';
-import Image from 'next/image';
 import { Button } from '@mui/material';
+import { useRemoveFormTrashMutation } from '@/redux/features/trash';
+import { toast } from 'sonner';
+import { useAddFoodMutation } from '@/redux/features/getFoods';
 
 
 interface TrashCardType {
     food: FoodType
 }
 
+
+
 const TrashCard = ({ food }: TrashCardType) => {
+
+    const [removeFoodFromTrash, { isLoading }] = useRemoveFormTrashMutation()
+    const [addFoodFromMainList] = useAddFoodMutation()
+
+    const handleRemoveFormTrash = async () => {
+        const res = await removeFoodFromTrash(food?.id)
+        //@ts-ignore
+        if (res?.data) {
+            toast.success("Trash removed successfully")
+        }
+    }
+
+
+    const handleRestorFormTrash = async () => {
+        const res = await addFoodFromMainList({
+            name: food?.name,
+            category: food?.category,
+            price: food?.price,
+            description: food?.description,
+            image: food?.image
+        })
+        //@ts-ignore
+        if (res?.data) {
+            toast.success("Successfully added this food on your food list ")
+            await removeFoodFromTrash(food?.id)
+        }
+    }
+
+
     return (
         <Card sx={{ display: 'flex', bgcolor: "#161b22", }} className='text-light_white'>
             <Box >
@@ -37,8 +65,12 @@ const TrashCard = ({ food }: TrashCardType) => {
                 </div>
                 <div className='flex justify-center items-center'>
                     <div className='flex items-center gap-2 mb-3'>
-                        <Button variant='contained' className='bg-red-600 hover:bg-red-600/90'>Remove</Button>
-                        <Button variant='contained' className='bg-primary hover:bg-primary/90'>Restore</Button>
+                        <Button
+                            onClick={handleRemoveFormTrash}
+                            variant='contained' className='bg-red-600 hover:bg-red-600/90'>Remove</Button>
+                        <Button
+                            onClick={handleRestorFormTrash}
+                            variant='contained' className='bg-primary hover:bg-primary/90'>Restore</Button>
 
                     </div>
                 </div>

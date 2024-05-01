@@ -20,7 +20,19 @@ export const trashApi = createApi({
       query: () => `/trash`,
       providesTags: ["trash"],
     }),
+
+    removeFormTrash: builder.mutation({
+      query: (id) => ({
+        url: `/trash/${parseInt(id)}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["trash"],
+    }),
   }),
 });
 
-export const { useAddToTrashMutation, useGetFoodFromTrashQuery } = trashApi;
+export const {
+  useAddToTrashMutation,
+  useGetFoodFromTrashQuery,
+  useRemoveFormTrashMutation,
+} = trashApi;
