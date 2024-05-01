@@ -13,9 +13,11 @@ const regularTabClass = "border-secondary text-secondary hover:text-secondary ho
 interface HistoryTab {
     activeHistoryTab: number;
     setActiveHistoryTab: (activeHistoryTab: number) => void;
+    setSearchQuery: (searchQuery: string) => void;
+    setCategory: (category: string) => void;
 }
 
-const HistoryTab = ({ activeHistoryTab, setActiveHistoryTab }: HistoryTab) => {
+const HistoryTab = ({ activeHistoryTab, setActiveHistoryTab, setCategory, setSearchQuery }: HistoryTab) => {
 
     // const [activeTab, setActiveTab] = useState(0)
     const { data: Foods } = useGetAllFoodQuery({})
@@ -28,17 +30,29 @@ const HistoryTab = ({ activeHistoryTab, setActiveHistoryTab }: HistoryTab) => {
         <ul className='text-white flex items-center gap-5 mt-10 flex-wrap '>
             <li>
                 <Button
-                    onClick={() => setActiveHistoryTab(0)}
+                    onClick={() => {
+                        setActiveHistoryTab(0)
+                        setSearchQuery("")
+                        setCategory("all")
+                    }}
                     variant={activeHistoryTab === 0 ? 'contained' : 'outlined'} className={activeHistoryTab === 0 ? activeTabClass : regularTabClass}>All - {Foods?.length}</Button>
             </li>
             <li>
                 <Button
-                    onClick={() => setActiveHistoryTab(1)}
+                    onClick={() => {
+                        setActiveHistoryTab(1)
+                        setSearchQuery("")
+                        setCategory("all")
+                    }}
                     variant={activeHistoryTab === 1 ? 'contained' : 'outlined'} className={activeHistoryTab === 1 ? activeTabClass : regularTabClass}>Trash - {Trash?.length}</Button>
             </li>
             <li>
                 <Button
-                    onClick={() => setActiveHistoryTab(2)}
+                    onClick={() => {
+                        setActiveHistoryTab(2)
+                        setSearchQuery("")
+                        setCategory("all")
+                    }}
                     variant={activeHistoryTab === 2 ? 'contained' : 'outlined'} className={activeHistoryTab === 2 ? activeTabClass : regularTabClass}>Draft - {draft?.length}</Button>
             </li>
         </ul>

@@ -21,12 +21,15 @@ interface AddFoodModalType {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isOpen: boolean;
     activeHistoryTab: number;
-    searchQuery: string
+    searchQuery: string;
+    category: string;
+    rowsPerPage: number;
+    page: number;
 }
 
 
 
-const Foods = ({ isOpen, setIsOpen, activeHistoryTab, searchQuery }: AddFoodModalType) => {
+const Foods = ({ isOpen, setIsOpen, activeHistoryTab, searchQuery, category, rowsPerPage, page }: AddFoodModalType) => {
     const {
         data: foods,
         isLoading: isGetLoading,
@@ -35,12 +38,25 @@ const Foods = ({ isOpen, setIsOpen, activeHistoryTab, searchQuery }: AddFoodModa
         isFetching,
         error: getError,
     } = useGetAllFoodQuery({ refetchOnMountOrArgChange: true })
-    let postContent
 
+
+    const filterFoodItemsByCategory = (category: string): FoodType[] => {
+        const startIndex = page * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+
+        if (category === "all") {
+            return foods?.slice(startIndex, endIndex);
+        } else {
+            return foods
+                .filter((food: FoodType) => food.category.toLowerCase() === category.toLowerCase())
+                .slice(startIndex, endIndex);
+        }
+    }
 
     function searchFoodItems(query: string): FoodType[] {
         query = query.toLowerCase().trim(); // Convert query to lowercase and remove leading/trailing spaces
-        return foods?.filter((food: FoodType) => food.name.toLowerCase().includes(query));
+        const filteredItems = filterFoodItemsByCategory(category);
+        return filteredItems?.filter((food: FoodType) => food.name.toLowerCase().includes(query));
     }
 
     const searchResults = searchFoodItems(searchQuery);
@@ -56,9 +72,9 @@ const Foods = ({ isOpen, setIsOpen, activeHistoryTab, searchQuery }: AddFoodModa
                     {activeHistoryTab === 0 && searchResults?.map((food: FoodType) => <FoodCard key={food.id + food.name} food={food} />
                     )}
                 </div>
-                {activeHistoryTab === 1 && <TrashList searchQuery={searchQuery} />}
+                {activeHistoryTab === 1 && <TrashList searchQuery={searchQuery} category={category} />}
 
-                {activeHistoryTab === 2 && <DraftList searchQuery={searchQuery} />}
+                {activeHistoryTab === 2 && <DraftList searchQuery={searchQuery} category={category} />}
             </div>
         </>
     )

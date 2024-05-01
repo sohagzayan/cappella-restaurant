@@ -8,15 +8,27 @@ import { useGetFoodFromDraftQuery } from '@/redux/features/draft'
 
 
 interface DraftListType {
-    searchQuery: string
+    searchQuery: string;
+    category: string
 }
 
-const DraftList = ({ searchQuery }: DraftListType) => {
+const DraftList = ({ searchQuery, category }: DraftListType) => {
     const { data: Draft } = useGetFoodFromDraftQuery({})
 
+
+    const filterFoodItemsByCategory = (category: string): FoodType[] => {
+        if (category === "all") {
+            return Draft; // Return all items if category is "all"
+        } else {
+            return Draft?.filter((food: FoodType) => food.category.toLowerCase() === category.toLowerCase());
+        }
+    }
+
+
     function searchFoodItems(query: string): FoodType[] {
-        query = query.toLowerCase().trim(); // Convert query to lowercase and remove leading/trailing spaces
-        return Draft?.filter((food: FoodType) => food.name.toLowerCase().includes(query));
+        query = query.toLowerCase().trim();
+        const filteredItems = filterFoodItemsByCategory(category);
+        return filteredItems?.filter((food: FoodType) => food.name.toLowerCase().includes(query));
     }
 
     const searchResults = searchFoodItems(searchQuery);
