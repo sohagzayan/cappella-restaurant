@@ -17,7 +17,7 @@ const SearchFilterManager = ({
     setIsOpen, isOpen, setSearchQuery, searchQuery, setCategory, category }: AddFoodModalType) => {
     return (
         <div className='grid grid-cols-12 gap-3 w-full justify-center mt-6'>
-            <div className='w-full col-span-8'>
+            <div className='w-full lg:col-span-8 col-span-12'>
                 <input
                     value={searchQuery}
                     onChange={(e: any) => setSearchQuery(e.target.value)}
@@ -29,7 +29,7 @@ const SearchFilterManager = ({
                     className=" block box-border w-full rounded-md shadow-sm transition-all text-foreground focus-visible:shadow-md outline-none focus:ring-2 focus-visible:border-foreground-muted focus-visible:ring-background-control placeholder-foreground-muted group bg-destructive-200 border border-destructive-500 focus:ring-destructive-400 placeholder:text-destructive-400 text-sm px-4 py-2"
                 />
             </div>
-            <div className='flex items-center  gap-2  col-span-4'>
+            <div className='flex items-center  gap-2  col-span-12 lg:col-span-4'>
                 <Button onClick={() => setIsOpen(true)} variant='contained' className='inline-flex items-center gap-1 bg-gradient-primary capitalize'>
                     <FilterAltOutlinedIcon />
                     AddFood

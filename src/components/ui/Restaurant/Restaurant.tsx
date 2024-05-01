@@ -17,7 +17,7 @@ const Restaurant = () => {
     const [searchQuery, setSearchQuery] = useState("")
     const [category, setCategory] = useState("all")
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(6);
+    const [rowsPerPage, setRowsPerPage] = useState(8);
     const {
         data: foods,
         isLoading: isGetLoading,

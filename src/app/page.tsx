@@ -12,7 +12,7 @@ export default function Home() {
   // console.log("data >>>", data)
 
   return (
-    <main className="">
+    <main className="md:px-2 px-5">
       <Toaster richColors />
       <Header />
       <Restaurant />

@@ -64,14 +64,14 @@ export default function FoodCard({ food }: FoodCardType) {
         <>
             <AddFoodModal isOpen={isOpen} setIsOpen={setIsOpen} initialValue={{ name: food.name, price: food.price, category: food.category, description: food.description, id: food.id }} />
 
-            <Card sx={{ maxWidth: 345 }}>
+            <Card >
                 <CardActionArea>
                     <div className='relative after:w-full after:h-full after:absolute after:top-0 after:left-0 after:bg-black/0 after:z-50 group hover:after:bg-black/40 after:transition-all after:ease-in-out after:duration-200'>
                         <CardMedia
                             className=''
                             component="img"
                             height="120"
-                            image="/assets/images/food.jpg"
+                            image={food?.image}
                             alt="green iguana"
                         />
                         <div className='text-white absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-300%] transform group-hover:translate-y-[-50%] transition-all  ease-in-out duration-300 '>

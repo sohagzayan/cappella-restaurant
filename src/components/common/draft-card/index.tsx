@@ -46,7 +46,7 @@ const DraftCard = ({ food }: DraftCardType) => {
     }
 
     return (
-        <Card sx={{ maxWidth: 345 }} className='relative '>
+        <Card className='relative '>
             <CardActionArea className='relative after:bg-black/50 after:top-0 after:left-0 after:absolute after:w-full after:h-full'>
                 <CardMedia
                     component="img"

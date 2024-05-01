@@ -92,8 +92,15 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
                 }
                 const image = await handleImageUpload(fileEvent)
                 if (initialValue) {
-                    await updateFood({ ...values, image, id: initialValue.id })
-
+                    const res = await updateFood({ ...values, image, id: initialValue.id })
+                    //@ts-ignore
+                    if (res?.data) {
+                        toast.success("successfully updated a food")
+                        formik.resetForm()
+                        setImageError("")
+                        setFileEvent(null)
+                        setIsOpen(false)
+                    }
                 } else {
                     const res = await addFood({ ...values, image })
                     //@ts-ignore  
@@ -204,8 +211,10 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
                         ) : null}
 
                         <div className='mt-4'>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button variant='contained' type='submit'>Add food</Button>
+                            <Button onClick={handleClose} className='capitalize'>Cancel</Button>
+                            <Button variant='contained' type='submit' className='capitalize'>
+                                {initialValue ? "Update Food" : "Add food"}
+                            </Button>
                         </div>
                     </DialogContent>
                 </form>
