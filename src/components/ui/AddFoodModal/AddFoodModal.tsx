@@ -10,7 +10,7 @@ import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from "react"
 import axios from 'axios';
-import { useAddFoodMutation, useUpdateFoodMutation } from '@/redux/features/getFoods';
+import { useAddFoodMutation, useGetSingleFoodQuery, useUpdateFoodMutation } from '@/redux/features/getFoods';
 import { toast } from 'sonner';
 
 interface InitialValueType {
@@ -30,7 +30,8 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
     const [fileEvent, setFileEvent] = useState(null)
     const [imageError, setImageError] = useState("")
     const [loading, setLoading] = useState(false)
-
+    console.log("initialValue?.id >", initialValue?.id)
+    const { data: singleFood } = useGetSingleFoodQuery(initialValue?.id)
     const [addFood, { isSuccess }] = useAddFoodMutation()
     const [updateFood, { isLoading }] = useUpdateFoodMutation()
 
@@ -40,8 +41,6 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
         formik.resetForm()
         setFileEvent(null)
     }
-
-    console.log("initialValue", initialValue)
 
 
     const handleImageUpload = async (event: any) => {
@@ -76,6 +75,7 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
             description: initialValue?.description ? initialValue?.description : "",
             category: initialValue?.category ? initialValue?.category : "",
         },
+        enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string().required("Please add name for this food"),
             price: Yup.number().required("Please add price for this food"),
@@ -84,6 +84,7 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
         }),
         onSubmit: async (values) => {
             setLoading(true)
+
             try {
                 if (!initialValue) {
                     if (!fileEvent) {
@@ -92,6 +93,7 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
                 }
                 const image = await handleImageUpload(fileEvent)
                 if (initialValue) {
+
                     const res = await updateFood({ ...values, image, id: initialValue.id })
                     //@ts-ignore
                     if (res?.data) {
@@ -120,7 +122,6 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
     });
 
 
-    console.log("formik errrrr>", formik.errors)
 
     return (
         <React.Fragment>
@@ -171,6 +172,9 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
                             value={formik.values.price}
                             onChange={formik.handleChange}
                         />
+                        {formik.touched.price && formik.errors.price ? (
+                            <p className='text-sm text-red-500 '>{formik.errors.price}</p>
+                        ) : null}
 
                         <label className="block text-foreground-light text-sm" htmlFor="description">Description</label>
                         <textarea
@@ -183,6 +187,9 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
                             rows={3}
 
                         />
+                        {formik.touched.description && formik.errors.description ? (
+                            <p className='text-sm text-red-500 '>{formik.errors.description}</p>
+                        ) : null}
 
                         <label className="block text-foreground-light text-sm" htmlFor="category">Category</label>
                         <select
@@ -198,7 +205,9 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
                             <option value="desserts">Desserts</option>
                             <option value="beverages">Beverages</option>
                         </select>
-
+                        {formik.touched.category && formik.errors.category ? (
+                            <p className='text-sm text-red-500 '>{formik.errors.category}</p>
+                        ) : null}
 
                         <input
                             name="image"

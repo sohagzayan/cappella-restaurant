@@ -11,6 +11,10 @@ export const getFoods = createApi({
       query: () => `/foods`,
       providesTags: ["Food"],
     }),
+    getSingleFood: builder.query({
+      query: (id) => `/foods/${parseInt(id)}`,
+      providesTags: ["Food"],
+    }),
     deleteFood: builder.mutation({
       query: (id) => ({
         url: `/foods/${parseInt(id)}`,
@@ -48,4 +52,5 @@ export const {
   useDeleteFoodMutation,
   useAddFoodMutation,
   useUpdateFoodMutation,
+  useGetSingleFoodQuery,
 } = getFoods;

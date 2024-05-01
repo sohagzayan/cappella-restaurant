@@ -16,6 +16,7 @@ import AddFoodModal from '@/components/ui/AddFoodModal/AddFoodModal';
 import { useAddToTrashMutation } from '@/redux/features/trash';
 import { useAddToDraftMutation } from '@/redux/features/draft';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 
 interface FoodCardType {
@@ -27,7 +28,7 @@ export default function FoodCard({ food }: FoodCardType) {
     const [addToDraft, res] = useAddToDraftMutation()
     const [addToTrash] = useAddToTrashMutation()
     const [isOpen, setIsOpen] = useState(false)
-
+    const router = useRouter()
     const handleDeleteFood = async () => {
         const res = await deleteFood(food.id)
         //@ts-ignore
@@ -96,9 +97,15 @@ export default function FoodCard({ food }: FoodCardType) {
                     </Typography>
                     <div className='flex items-center gap-4 mt-3' >
                         <Button
-                            onClick={() => setIsOpen(true)}
+                            onClick={() => {
+                                setIsOpen(true)
+                            }}
                             variant='contained'
-                            className='text-white hover:bg-primary/95 bg-primary'>Edit</Button>
+                            className='text-white hover:bg-primary/95 bg-primary'>
+                            Edit
+                        </Button>
+
+
                         <Button onClick={handleAddToDraft} variant='contained' className='bg-black text-white hover:bg-black/90 hover:text-white capitalize'>
                             Draft
                         </Button>
