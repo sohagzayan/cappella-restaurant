@@ -67,7 +67,12 @@ const Foods = ({ isOpen, setIsOpen, activeHistoryTab, searchQuery, category, row
     return (
         <>
             <AddFoodModal isOpen={isOpen} setIsOpen={setIsOpen} />
-            <div>
+            <div className=''>
+                {searchResults.length <= 0 && <div className='text-light_white text-center text-[18px] py-12'>
+                    <h2>Product Not Found</h2>
+                    <p>You can add product or search with valid keyword</p>
+                </div>}
+
                 <div className='mt-10 grid grid-cols-1  md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-3 gap-5'>
                     {activeHistoryTab === 0 && searchResults?.map((food: FoodType) => <FoodCard key={food.id + food.name} food={food} />
                     )}

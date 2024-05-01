@@ -31,9 +31,8 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
     const [imageError, setImageError] = useState("")
     const [loading, setLoading] = useState(false)
     console.log("initialValue?.id >", initialValue?.id)
-    const { data: singleFood } = useGetSingleFoodQuery(initialValue?.id)
-    const [addFood, { isSuccess }] = useAddFoodMutation()
-    const [updateFood, { isLoading }] = useUpdateFoodMutation()
+    const [addFood] = useAddFoodMutation()
+    const [updateFood] = useUpdateFoodMutation()
 
     const handleClose = () => {
         setIsOpen(false);

@@ -45,3 +45,7 @@
 - Step.10: Create Pull Request (PR):
 
 * Open a PR on GitHub (or similar) comparing hotfix/issue-description to main.
+
+### Quick View
+
+![alt text](image.png)
