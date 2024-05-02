@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import React from 'react'
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
-
+import AddIcon from '@mui/icons-material/Add';
 
 interface AddFoodModalType {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,9 +30,8 @@ const SearchFilterManager = ({
                 />
             </div>
             <div className='flex items-center  gap-2  col-span-12 lg:col-span-4'>
-                <Button onClick={() => setIsOpen(true)} variant='contained' className='inline-flex items-center gap-1 bg-gradient-primary capitalize'>
-                    <FilterAltOutlinedIcon />
-                    AddFood
+                <Button onClick={() => setIsOpen(true)} variant='contained' className='inline-flex items-center gap-1 bg-gradient-primary px-4 capitalize'>
+                    <AddIcon />  AddFood
                 </Button>
 
 
