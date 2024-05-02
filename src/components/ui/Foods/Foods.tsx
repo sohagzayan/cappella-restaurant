@@ -68,7 +68,7 @@ const Foods = ({ isOpen, setIsOpen, activeHistoryTab, searchQuery, category, row
         <>
             <AddFoodModal isOpen={isOpen} setIsOpen={setIsOpen} />
             <div className=''>
-                {searchResults.length <= 0 && <div className='text-light_white text-center text-[18px] py-12'>
+                {searchResults?.length <= 0 && <div className='text-light_white text-center text-[18px] py-12'>
                     <h2>Product Not Found</h2>
                     <p>You can add product or search with valid keyword</p>
                 </div>}
