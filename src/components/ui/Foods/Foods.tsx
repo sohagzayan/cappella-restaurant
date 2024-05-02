@@ -54,7 +54,7 @@ const Foods = ({ isOpen, setIsOpen, activeHistoryTab, searchQuery, category, row
     }
 
     function searchFoodItems(query: string): FoodType[] {
-        query = query.toLowerCase().trim(); // Convert query to lowercase and remove leading/trailing spaces
+        query = query.toLowerCase().trim();
         const filteredItems = filterFoodItemsByCategory(category);
         return filteredItems?.filter((food: FoodType) => food.name.toLowerCase().includes(query));
     }
