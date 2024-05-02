@@ -16,7 +16,7 @@ const Summary = () => {
     const { data: Draft } = useGetFoodFromDraftQuery({})
 
     return (
-        <div className='grid lg:grid-cols-2 xl:grid-cols-3 grid-cols-1 w-full items-center justify-center gap-10 mt-10'>
+        <div className='grid  lg:grid-cols-2 xl:grid-cols-3 grid-cols-3 w-full items-center justify-center gap-10 mt-10'>
             <SummaryCard
                 name="All Foods"
                 value={Foods?.length}

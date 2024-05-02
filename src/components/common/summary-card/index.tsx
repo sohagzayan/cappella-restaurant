@@ -13,15 +13,20 @@ const SummaryCard = ({ name, value, icon }: SummaryCardType) => {
         <React.Fragment>
             <CardContent className="bg-[#161b22]  border border-[#30363d] text-white  rounded-md w-full ">
                 <div>
-                    <Typography sx={{ fontSize: 20 }} className=' text-light_white mb-6' >
-                        {name}
-                    </Typography>
-                    <Typography component="div" className='flex justify-between items-center'>
-
-                        <Typography variant='h3' className='font-semibold text-secondary'>
+                    <div className='flex md:flex-row flex-col items-center justify-between'>
+                        <Typography sx={{ fontSize: 20 }} className=' text-light_white md:mb-6' >
+                            {name}
+                        </Typography>
+                        <Typography variant='h3' className='font-semibold text-secondary md:hidden block'>
                             {value}
                         </Typography>
-                        <Typography component="div" className='text-secondary ' >
+                    </div>
+                    <Typography component="div" className='flex justify-between items-center'>
+
+                        <Typography variant='h3' className='font-semibold text-secondary md:block hidden'>
+                            {value}
+                        </Typography>
+                        <Typography component="div" className='text-secondary md:block hidden' >
                             {icon}
                         </Typography>
                     </Typography>

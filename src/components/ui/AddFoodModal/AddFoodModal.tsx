@@ -76,14 +76,13 @@ export default function AddFoodModal({ setIsOpen, isOpen, initialValue }: AddFoo
         },
         enableReinitialize: true,
         validationSchema: Yup.object({
-            name: Yup.string().required("Please add name for this food"),
+            name: Yup.string().required("Please add name for this food").max(55, "Your title is to long!"),
             price: Yup.number().required("Please add price for this food"),
             description: Yup.string().required("Please add description here"),
             category: Yup.string().required("Please add category here"),
         }),
         onSubmit: async (values) => {
             setLoading(true)
-
             try {
                 if (!initialValue) {
                     if (!fileEvent) {

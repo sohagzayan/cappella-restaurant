@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea } from '@mui/material';
+import { Button, CardActionArea, CardActions } from '@mui/material';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import { useState } from "react"
 import axios from 'axios';
@@ -65,13 +65,14 @@ export default function FoodCard({ food }: FoodCardType) {
         <>
             <AddFoodModal isOpen={isOpen} setIsOpen={setIsOpen} initialValue={{ name: food.name, price: food.price, category: food.category, description: food.description, id: food.id }} />
 
-            <Card >
+            <Card className='' >
                 <CardActionArea>
                     <div className='relative after:w-full after:h-full after:absolute after:top-0 after:left-0 after:bg-black/0 after:z-50 group hover:after:bg-black/40 after:transition-all after:ease-in-out after:duration-200'>
                         <CardMedia
-                            className=''
+                            className='max-h-[200px]'
                             component="img"
                             height="120"
+
                             image={food?.image}
                             alt="green iguana"
                         />
@@ -83,19 +84,28 @@ export default function FoodCard({ food }: FoodCardType) {
                     </div>
 
                 </CardActionArea>
-                <CardContent>
-                    <Typography component="div" className='flex  gap-2 justify-between'>
-                        <Typography variant="h6" component="div" className='font-semibold'>
-                            {food.name}
+                <CardContent className=' '>
+                    <div>
+                        <Typography component="div" className='flex h-[60px]  gap-2 justify-between'>
+                            <Typography variant="h6" component="div" className='font-semibold leading-7'>
+                                {food.name}
+                            </Typography>
+
                         </Typography>
-                        <Typography variant="h5" component="div" className='font-semibold'>
-                            ${food?.price}
+                        <Typography variant="body2" color="text.secondary" className='h-[60px] '>
+                            {food?.description.length >= 120 ? <p>{food?.description.slice(0, 120)}...</p> : food?.description}
                         </Typography>
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" className='h-[80px]'>
-                        {food?.description.slice(0, 120)}
-                    </Typography>
-                    <div className='flex items-center gap-4 mt-3' >
+                        <Typography variant="h6" component="div" className='text-[14px]'>
+                            <strong>Category:</strong> {food?.category}
+                        </Typography>
+                        <div className='flex items-center justify-between gap-2'>
+                            <Typography variant="h5" component="div" className='font-semibold'>
+                                ${food?.price}
+                            </Typography>
+
+                        </div>
+                    </div>
+                    <div className='flex gap-4 mt-3' >
                         <Button
                             onClick={() => {
                                 setIsOpen(true)
@@ -114,8 +124,8 @@ export default function FoodCard({ food }: FoodCardType) {
                         </Button>
 
                     </div>
-                </CardContent>
 
+                </CardContent>
             </Card>
         </>
     );
