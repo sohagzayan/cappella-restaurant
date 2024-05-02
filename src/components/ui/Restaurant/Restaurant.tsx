@@ -39,7 +39,7 @@ const Restaurant = () => {
 
 
     return (
-        <div className=' h-16 mx-auto lg:container lg:px-16 xl:px-20 z-50'>
+        <div className=' h-16 mx-auto lg:container lg:px-16 xl:px-20 z-50 '>
             <Summary />
             <HistoryTab activeHistoryTab={activeHistoryTab} setActiveHistoryTab={setActiveHistoryTab}
                 setCategory={setCategory}
@@ -63,7 +63,7 @@ const Restaurant = () => {
                 rowsPerPage={rowsPerPage}
 
             />
-            <div className='flex items-center justify-center mb-20'>
+            {activeHistoryTab === 0 && <div className='flex items-center justify-center mb-20'>
                 <TablePagination
                     className='text-white'
                     component="div"
@@ -73,7 +73,8 @@ const Restaurant = () => {
                     rowsPerPage={rowsPerPage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-            </div>
+            </div>}
+
         </div>
     )
 }
