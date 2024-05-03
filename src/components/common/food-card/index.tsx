@@ -86,7 +86,7 @@ export default function FoodCard({ food }: FoodCardType) {
                 </CardActionArea>
                 <CardContent className=' '>
                     <div>
-                        <Typography component="div" className='flex h-[60px]  gap-2 justify-between'>
+                        <Typography component="div" className='flex min-h-[60px]   gap-2 justify-between'>
                             <Typography variant="h6" component="div" className='font-semibold leading-7'>
                                 {food.name}
                             </Typography>
